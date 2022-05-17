@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    //fetchMensajes(0, null,0, '');
+    fetchMensajes(0, null,0, '');
 
     $(function(){
         $('#btn-mensaje').on('click',function(){  
@@ -15,13 +15,27 @@ $(document).ready(function () {
     })
     $(function(){
         $('#btn-reiniciar').on('click',function(){  
-            //$('#contenedor-mensajes').empty();
+            $('#contenedor-mensajes').empty();
 
             // agregar validacion que tenga texto
 
-            fetchMensajes(0, null,0, 'vincu');
+            fetchMensajes(0, null,0, '');
         });
     })
+
+    $('#form-busqueda').submit(function(e){
+        if($('#texto-busqueda').val()!=''){
+            let texto = $('#texto-busqueda').val();
+            fetchMensajes(0, null,0, texto);
+            $('.saludo').css({"pointer-events": "none"});
+            $('#texto-busqueda').val('');
+
+            e.preventDefault();
+        }
+        e.preventDefault();
+        $('#texto-busqueda').val('');
+    })
+
 })
 
 function fetchMensajes(id, conector, hijos, texto){
@@ -51,12 +65,12 @@ function fetchMensajes(id, conector, hijos, texto){
 
                 if (item.id_tipo == 1 && item.padre == 0)
                 {
-                    template += `<div class="mensaje" id="${item.id_principal}" onclick="fetchMensajes(${item.id_principal},'${item.conector}',${item.cant_hijos},'')"><p>${item.contenido}</p></div>`
+                    template += `<div class="mensaje saludo" id="${item.id_principal}" onclick="fetchMensajes(${item.id_principal},'${item.conector}',${item.cant_hijos},'')"><p>${item.contenido}</p></div>`
                 } 
 
                 if (item.id_tipo == 1 && item.padre != 0)
                 {
-                    template += `<div class="opcion" id="${item.id_principal}" ><p>${item.contenido}</p></div>`
+                    template += `<div class="mensaje" id="${item.id_principal}" ><p>${item.contenido}</p></div>`
                 } 
 
                 if (item.id_tipo == 2)
@@ -65,7 +79,7 @@ function fetchMensajes(id, conector, hijos, texto){
                 } 
 
             });
-            $('#contenedor-mensajes').append(template);
+            $('#contenedor-mensajes').append(template).scrollTop($('#contenedor-mensajes').height());
         },
         error: function (data) {
             console.log(data)

@@ -11,13 +11,14 @@
         $query = 'SELECT *, (SELECT COUNT(*) FROM principal where padre = p.id_principal) as cant_hijos FROM principal p WHERE padre = '.$hijoQuery.' ';
     
 
+
     $result = mysqli_query($conexion, $query);
 
     if(!$result){
         die('el query falló'.mysqli_error($conexion));
     }
 
-    $json = array();
+
     while($row = mysqli_fetch_array($result)){
         $json[] = array(
             'id_principal' => $row['id_principal'],

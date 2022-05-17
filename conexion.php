@@ -1,6 +1,6 @@
 <?php
     $conexion = mysqli_connect(
-        'localhost',
+        'localhost:3307',
         'root',
         'password',
         'chatbot'
